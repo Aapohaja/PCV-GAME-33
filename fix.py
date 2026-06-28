@@ -8,8 +8,8 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 # --- KONFIGURASI PENTING ---
-# Path folder gambar kartu (Hardcoded sesuai permintaan)
-PATH_FOLDER = r"C:\Users\aaron\Downloads\individual_cards_2" 
+# Path folder gambar kartu (Relatif terhadap file ini)
+PATH_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "individual_cards_2") 
 
 SUITS = ['Heart', 'Diamond', 'Club', 'Spade']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']

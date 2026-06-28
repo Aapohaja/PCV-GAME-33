@@ -29,13 +29,9 @@ pip install opencv-python numpy pillow
 
 ## 🚀 Setup & Configuration
 
-1. **Card Templates Folder**:
-   - `fix.py` matches cards against template images stored on your system.
-   - By default, the path is set in `fix.py` on line 12:
-     ```python
-     PATH_FOLDER = r"C:\Users\aaron\Downloads\individual_cards_2"
-     ```
-   - Make sure your template folder contains images formatted as `{Rank}_{Suit}.jpg` (e.g., `A_Heart.jpg`, `10_Spade.jpg`). Update `PATH_FOLDER` in `fix.py` to match your local dataset path.
+1. **Card Templates Dataset**:
+   - The card image templates are included directly in the repository under the `individual_cards_2/` directory.
+   - `fix.py` automatically detects and loads these templates using a relative path.
 
 2. **Webcam Selection**:
    - If using an external webcam, update the camera index in `fix.py` (line 92):
