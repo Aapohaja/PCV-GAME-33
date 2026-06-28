@@ -37,7 +37,7 @@ graph TD
     D --> E[Perspective Transformation / Bird's-Eye View]
     E --> F[Normalized Template Matching]
     F -->|Match Confidence > 60%| G[GUI State Machine / Buffer]
-    G -->|Player Input [SPACE]| H[Player Hand Updated]
+    G -->|"Player Input (SPACE)"| H[Player Hand Updated]
     H --> I[Combinatorial Computer AI Move]
     I --> J[Win / Loss / Discard Evaluation]
 ```
