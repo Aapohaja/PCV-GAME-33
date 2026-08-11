@@ -97,8 +97,4 @@ Computer Engineering, ITS Surabaya
 
 [GitHub](https://github.com/Aapohaja) · [LinkedIn](https://linkedin.com/in/aaron-manik)
 
-Yang bikin ini lebih menarik dibanding versi sebelumnya
-**Aaron Smeraldo Olivier Manik**
-Computer Engineering, ITS Surabaya
 
-[GitHub](https://github.com/Aapohaja) · [LinkedIn](https://linkedin.com/in/aaron-manik)
