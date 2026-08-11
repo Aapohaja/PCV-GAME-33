@@ -1,124 +1,150 @@
-<div align="center">
+# Cari 33 — Computer Vision Card Game
 
-# 🎴 Game 33 — Real-Time Computer Vision Card Game
+A desktop card game where you play using real physical playing cards instead of clicks.
+A webcam reads the cards in real time, and you play against a computer opponent that
+tries to build a hand closest to 33.
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green.svg?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
-[![Tkinter](https://img.shields.io/badge/GUI-Tkinter-orange.svg?style=for-the-badge)](https://docs.python.org/3/library/tkinter.html)
-[![License](https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge)](LICENSE)
+Built with Python, OpenCV, and Tkinter.
 
-**An interactive desktop application integrating real-time Computer Vision (CV), Homography/Perspective Transformation, and Heuristic AI to play physical playing card games.**
+**Demo video:** https://youtu.be/A00Md_RPhA0
 
-[Key Features](#-key-features) • [System Architecture](#-system-architecture) • [Tech Stack](#-tech-stack) • [Installation](#-installation--getting-started) • [Game Rules](#-game-rules--scoring)
-
-</div>
-
----
-
-## 💡 Overview & Engineering Value
-
-**Game 33** bridges physical interaction with digital artificial intelligence. Instead of manually clicking digital cards, players use **real physical playing cards** scanned in real-time via a webcam.
-
-The application leverages custom computer vision algorithms to detect card geometry, correct perspective distortion, perform template matching under varying orientations, and manage an algorithmic computer opponent programmed with combinatorial optimization strategies.
-
-> 🌟 **Why Recruiters Love This Project**: Demonstrates practical expertise in real-time signal processing, image preprocessing pipelines, spatial transformations, GUI thread management, and game decision algorithms.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green)
+![License](https://img.shields.io/badge/License-MIT-purple)
 
 ---
 
-## ⚙️ System Architecture
+## How to run
 
-The workflow below illustrates the pipeline from physical webcam frame capture to AI decision execution:
-
-```mermaid
-graph TD
-    A[Webcam Feed] --> B[Grayscale & Gaussian Blur]
-    B --> C[Canny Edge Detection]
-    C --> D[Contour Analysis & Quadrilateral Approximation]
-    D --> E[Perspective Transformation / Bird's-Eye View]
-    E --> F[Normalized Template Matching]
-    F -->|Match Confidence > 60%| G[GUI State Machine / Buffer]
-    G -->|"Player Input (SPACE)"| H[Player Hand Updated]
-    H --> I[Combinatorial Computer AI Move]
-    I --> J[Win / Loss / Discard Evaluation]
-```
-
----
-
-## 🔥 Key Features
-
-### 📸 1. Computer Vision & Optical Pipeline
-- **Quad Corner Detection**: Extracts high-contrast card contours using `Canny` edge detection and `approxPolyDP` to isolate exact card coordinates.
-- **Bird's-Eye View Homography**: Applies perspective warping (`getPerspectiveTransform` & `warpPerspective`) to normalize skewed card angles into a flat 200x280 reference matrix.
-- **Rotation-Invariant Template Matching**: Evaluates Normalized Cross-Correlation (`TM_CCOEFF_NORMED`) across 52 pre-computed card templates, accounting for 0° and 180° physical orientation.
-
-### 🧠 2. Heuristic Computer Opponent (AI)
-- **Combinatorial Optimization**: Uses `itertools.combinations` to analyze all possible 3-card hand combinations ($O(\binom{N}{3})$) to find the mathematically optimal hand closest to target score 33.
-- **Dynamic Risk Assessment**: Evaluates bust risk dynamically to minimize score difference against the player.
-
-### 🖥️ 3. Modern Desktop GUI
-- **Real-Time Video Overlay**: Displays live camera feed with visual bounding contours, confidence percentage indicators, and cropped card preview debug windows.
-- **Asynchronous Event Loop**: Runs OpenCV frame processing smoothly inside Tkinter’s `after()` scheduling loop without freezing the GUI.
-
----
-
-## 🛠️ Tech Stack & Dependencies
-
-| Layer | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Core Language** | Python 3.8+ | Primary software architecture |
-| **Computer Vision** | OpenCV (`cv2`) | Image processing, contour analysis, template matching |
-| **Numeric Processing** | NumPy | Matrix operations, perspective transformation coordinates |
-| **GUI Framework** | Tkinter & Pillow (PIL) | Responsive desktop UI and image-to-canvas rendering |
-| **Algorithm Execution** | Standard Library (`itertools`, `random`) | Deck shuffling and combinatorial AI evaluation |
-
----
-
-## 🚀 Installation & Getting Started
-
-### 1. Clone Repository
-```bash
+``bash
 git clone https://github.com/Aapohaja/PCV-GAME-33.git
 cd PCV-GAME-33
-```
-
-### 2. Install Dependencies
-```bash
 pip install opencv-python numpy pillow
-```
-
-### 3. Run Application
-```bash
 python fix.py
-```
 
-> 📌 **Note on Templates**: The dataset template folder (`individual_cards_2/`) is pre-packaged within this repository and automatically resolved via relative pathing in `fix.py`.
-
----
-
-## 🎮 Game Rules & Scoring
-
-The objective is to achieve a total hand score as close to **33** as possible over **10 rounds** without going over.
-
-### Card Valuation Table
-
-| Card Rank | Point Value | Notes |
-| :---: | :---: | :--- |
-| **2 – 10** | Face Value ($2 - 10$) | Standard numerical points |
-| **J, Q, K** | 10 Points | Jack, Queen, King face cards |
-| **Ace (A)** | 11 Points | Fixed high-value card |
-
-### Gameplay Flow
-1. Click **MULAI GAME** to initiate deck shuffling and deal 3 hidden cards to the Computer.
-2. Hold a card over a dark background until the webcam feed displays **SIAP: [Rank] [Suit]**.
-3. Press **[SPASI] (Spacebar)** to register the card to your hand.
-4. If holding 4 cards, select which card to discard via the GUI panel.
-5. Win by reaching **exactly 33**, forcing the Computer to **Bust (>33)**, or holding the closest score to 33 after round 10.
+The card templates in individual_cards_2/ come with the repo, so no extra setup is needed.
 
 ---
+How to play
 
-## 👨‍💻 Author
+Goal: get your hand as close to 33 as possible over 10 rounds without going over.
 
-Developed as a Computer Vision & Intelligent Systems demonstration.
+1. Click MULAI GAME. The computer gets 3 hidden cards.
+2. Hold a physical card in front of the webcam over a dark background. Wait until
+the feed shows SIAP: [Rank] [Suit].
+3. Press Space to add the card to your hand.
+4. If you already have 4 cards, pick one to discard from the GUI panel.
+5. You win if you hit exactly 33, if the computer busts, or if you are closest to 33
+after round 10.
 
-- **GitHub**: [@Aapohaja](https://github.com/Aapohaja)
-- **Repository**: [PCV-GAME-33](https://github.com/Aapohaja/PCV-GAME-33.git)
+Card values
+
+┌─────────┬────────────┐
+│  Card   │   Points   │
+├─────────┼────────────┤
+│ 2–10    │ face value │
+├─────────┼────────────┤
+│ J, Q, K │ 10         │
+├─────────┼────────────┤
+│ A       │ 11         │
+└─────────┴────────────┘
+
+---
+How it works
+
+Pipeline from webcam frame to registered card:
+
+1. Grab frame from webcam
+2. Preprocess — grayscale + Gaussian blur to reduce noise
+3. Edge detection with Canny
+4. Find contours and approximate quadrilaterals to isolate card outlines
+5. Perspective warp — normalize the tilted card into a flat 200×280 image
+6. Template match against 52 pre-computed card templates using normalized
+cross-correlation. Checks both 0° and 180° orientation.
+7. If match confidence is above 60%, the card is ready to be registered.
+
+The computer opponent picks its next move by scanning all 3-card combinations from
+its hand with itertools.combinations and picking whichever gets closest to 33
+without busting.
+
+The whole thing runs inside Tkinter's after() loop so the video feed stays smooth
+without freezing the UI.
+
+---
+Tech stack
+
+- Python 3.8+ — main language
+- OpenCV — image processing, contour detection, template matching
+- NumPy — matrix math for perspective transforms
+- Tkinter + Pillow — GUI and rendering the webcam feed to the canvas
+
+---
+Author
+
+Aaron Smeraldo Olivier Manik — Computer Engineering student at ITS Surabaya.
+
+- GitHub: @Aapohaja (https://github.com/Aapohaja)
+
+## Yang saya ubah dari versi kamu
+
+**Buang emoji berlebihan** — sekarang 0 emoji. GitHub README dari engineer serius biasanya minim emoji. Emoji berlebihan = sinyal "aku baru bikin repo pertama" atau "ini generated by AI."
+
+**Buang section "Why Recruiters Love This Project"** — ini paling parah, langsung teriak AI-generated. Recruiter yang bagus akan skip repo yang punya section seperti ini.
+
+**Buang bahasa marketing:**
+- "bridges physical interaction with digital artificial intelligence" → dihapus
+- "leverages custom computer vision algorithms" → jadi kalimat biasa
+- "Rotation-Invariant Template Matching" (heading) → dijelaskan biasa saja di How it works
+- "Combinatorial Optimization" jargon → "picks its next move by scanning all 3-card combinations"
+
+**Ubah struktur bullet-per-bullet feature list → prose penjelasan pipeline** — lebih natural, lebih mudah dibaca, dan lebih jujur soal apa yang codebase sebenarnya lakukan.
+
+**Video demo di atas** — HRD/recruiter lihat repo 15 detik. Video link di atas fold pertama = 
+│ A       │ 11         │
+└─────────┴────────────┘
+
+---
+How it works
+
+Pipeline from webcam frame to registered card:
+
+1. Grab frame from webcam
+2. Preprocess — grayscale + Gaussian blur to reduce noise
+3. Edge detection with Canny
+4. Find contours and approximate quadrilaterals to isolate card outlines
+5. Perspective warp — normalize the tilted card into a flat 200×280 image
+6. Template match against 52 pre-computed card templates using normalized
+cross-correlation. Checks both 0° and 180° orientation.
+7. If match confidence is above 60%, the card is ready to be registered.
+
+The computer opponent picks its next move by scanning all 3-card combinations from
+its hand with itertools.combinations and picking whichever gets closest to 33
+without busting.
+
+The whole thing runs inside Tkinter's after() loop so the video feed stays smooth
+without freezing the UI.
+
+---
+Tech stack
+
+- Python 3.8+ — main language
+- OpenCV — image processing, contour detection, template matching
+- NumPy — matrix math for perspective transforms
+- Tkinter + Pillow — GUI and rendering the webcam feed to the canvas
+
+---
+Author
+
+Aaron Smeraldo Olivier Manik — Computer Engineering student at ITS Surabaya.
+
+- GitHub: @Aapohaja (https://github.com/Aapohaja)
+```markdown
+**Demo video:** https://youtu.be/A00Md_RPhA0
+
+![Demo](demo.gif)
+
+GIF paling powerful. Kalau susah bikin GIF, minimum 1 screenshot gameplay dengan overlay deteksi kelihatan. Rekam layar 3 detik saat main → convert ke GIF via ezgif.com.
+
+Setelah README dan (opsional) scbukti nyata di screening HRD.
+
+✻ Sautéed for 45s
