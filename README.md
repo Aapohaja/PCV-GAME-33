@@ -1,73 +1,104 @@
-Cari 33 — Computer Vision Card Game
+<div align="center">
 
-A desktop card game where you play using real physical playing cards instead of clicks. A webcam reads the cards in real time, and you play against a computer opponent that tries to build a hand closest to 33.
+# Cari 33
 
-Built with Python, OpenCV, and Tkinter.
+**Play card games with real physical cards, not clicks.**
 
-Demo video: https://youtu.be/A00Md_RPhA0
+A desktop card game where a webcam reads your actual playing cards in real time. Built to explore computer vision on a problem that's easy to demo and fun to show off.
 
-https://img.shields.io/badge/Python-3.8%2B-blue
-https://img.shields.io/badge/OpenCV-4.x-green
-https://img.shields.io/badge/License-MIT-purple
+[Watch the demo →](https://youtu.be/A00Md_RPhA0)
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?logo=opencv&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-A855F7)
+
+</div>
 
 ---
-How to run
 
+## What it does
+
+You hold a real playing card in front of your webcam. The app detects its edges, warps the tilted view into a flat image, and matches it against 52 templates. Once it's confident, you press Space to add the card to your hand.
+
+Your goal is to build a hand as close to **33** as possible over 10 rounds without going over. A computer opponent plays against you, scanning all its 3-card combinations to pick the best move.
+
+That's it. No mouse. No touchscreen. Just cardboard and a camera.
+
+---
+
+## Quick start
+
+```bash
 git clone https://github.com/Aapohaja/PCV-GAME-33.git
 cd PCV-GAME-33
 pip install opencv-python numpy pillow
 python fix.py
-The card templates in individual_cards_2/ come with the repo, so no extra setup is needed.
+```
+
+The card templates in `individual_cards_2/` ship with the repo, so you're ready to play right after install.
 
 ---
-How to play
 
-Goal: get your hand as close to 33 as possible over 10 rounds without going over.
+## How to play
 
-1. Click MULAI GAME. The computer gets 3 hidden cards.
-2. Hold a physical card in front of the webcam over a dark background. Wait until the feed shows SIAP: [Rank] [Suit].
-3. Press Space to add the card to your hand.
-4. If you already have 4 cards, pick one to discard from the GUI panel.
-5. You win if you hit exactly 33, if the computer busts, or if you are closest to 33 after round 10.
+1. Click **MULAI GAME**. The computer draws 3 hidden cards.
+2. Hold a card in front of the webcam. Wait until the feed shows `SIAP: [Rank] [Suit]`.
+3. Press **Space** to register the card into your hand.
+4. Already have 4 cards? Pick one to discard from the GUI panel.
+5. Win by:
+   - hitting exactly **33**, or
+### Card values
 
-Card values
-
-- 2 through 10 — face value (2 to 10 points)
-- Jack, Queen, King — 10 points each
-- Ace — 11 points
-
----
-How it works
-
-The pipeline from webcam frame to
-5. Apply a perspective warp to normalize the tilted card into a flat 200 by 280 image.
-6. Match the flat image against 52 pre-computed card templates using normalized cross-correlation. Both 0 degree and 180 degree orientations are checked.
-7. If match confidence is above 60 percent, the card is ready to be registered with the Space key.
-
-The computer opponent picks its next move by scanning all 3-card combinations from its hand with itertools.combinations, then picking whichever gets closest to 33 without busting.
-
-The whole thing runs inside Tkinter's after() loop so the video feed stays smooth without freezing the UI.
+| Card | Points |
+|:----:|:------:|
+| 2–10 | face value |
+| J, Q, K | 10 |
+| A | 11 |
 
 ---
-Tech stack
 
-- Python 3.8+ — main language
-- OpenCV — image processing, contour detection, template matching
-- NumPy — matrix math for perspective transforms
-- Tkinter + Pillow — GUI and rendering the webcam feed to the canvas
+## How it works
+
+The vision pipeline runs on every webcam frame:
+
+```
+Webcam frame
+  ↓  grayscale + Gaussian blur
+  ↓  Canny edge detection
+  ↓  contour analysis (approxPolyDP)
+  ↓  perspective warp to flat 200×280
+  ↓  template matching against 52 cards
+  ↓  confidence > 60% → ready to register
+```
+
+The AI opponent is simpler than the vision side. It brute-forces every 3-card combination in its hand with `itertools.combinations`, scores each one, and picks whichever gets closest to 33 without busting.
+
+Both loops run inside Tkinter's `after()` scheduler so the video feed stays smooth without freezing the UI.
 
 ---
-Author
 
-Aaron Smeraldo Olivier Manik — Computer Engineering student at ITS Surabaya.
+## Tech stack
 
-- OpenCV — image processing, contour detection, template matching
-- NumPy — matrix math for perspective transforms
-- Tkinter + Pillow — GUI and rendering the webcam feed to the canvas
+- **Python 3.8+** — everything runs here
+- **OpenCV** — edge detection, contour analysis, perspective warp, template matching
+- **NumPy** — matrix math for the warp
+- **Tkinter + Pillow** — GUI and rendering the live camera feed
 
 ---
-Author
 
-Aaron Smeraldo Olivier Manik — Computer Engineering student at ITS Surabaya.
+## Why this project
 
-GitHub: @Aapohaja (https://github.com/Aapohaja)
+I wanted to build something that made computer vision feel tangible instead of academic. Card recognition is a well-understood problem with a huge visual payoff — the moment you hold up
+
+## Author
+
+**Aaron Smeraldo Olivier Manik**
+Computer Engineering, ITS Surabaya
+
+[GitHub](https://github.com/Aapohaja) · [LinkedIn](https://linkedin.com/in/aaron-manik)
+
+Yang bikin ini lebih menarik dibanding versi sebelumnya
+**Aaron Smeraldo Olivier Manik**
+Computer Engineering, ITS Surabaya
+
+[GitHub](https://github.com/Aapohaja) · [LinkedIn](https://linkedin.com/in/aaron-manik)
